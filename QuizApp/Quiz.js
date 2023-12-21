@@ -41,10 +41,12 @@ const answerOptionsQ5=[answerOptionLanguage,answerOptionProgramminglanguage,answ
 function QuestionAnswerOptionsPair(question,answerOptions,correctAnswer){
     this.question=question;
     this.answerOptions=answerOptions;
+    this.correctAnswer=correctAnswer;
+
     this.isCorrectAnswer=function(userSuppliedAnswer){
         if(userSuppliedAnswer==this.correctAnswer.answerText){
-            console.log("Correct Answer");
-            return tffrue;
+            console.log("Correct Answer");      
+            return true;
         }else{
             console.log("Incorrect Answer");
             return false;
@@ -52,11 +54,11 @@ function QuestionAnswerOptionsPair(question,answerOptions,correctAnswer){
     }
 }
 
-const questionAnswerOptionsPair1=new QuestionAnswerOptionsPair(question1,answerOptionsQ1);
-const questionAnswerOptionsPair2=new QuestionAnswerOptionsPair(question2,answerOptionsQ2);
-const questionAnswerOptionsPair3=new QuestionAnswerOptionsPair(question3,answerOptionsQ3);
-const questionAnswerOptionsPair4=new QuestionAnswerOptionsPair(question4,answerOptionsQ4);
-const questionAnswerOptionsPair5=new QuestionAnswerOptionsPair(question5,answerOptionsQ5);
+const questionAnswerOptionsPair1=new QuestionAnswerOptionsPair(question1,answerOptionsQ1,answerOptionFunctions);
+const questionAnswerOptionsPair2=new QuestionAnswerOptionsPair(question2,answerOptionsQ2,answerOptionCss);
+const questionAnswerOptionsPair3=new QuestionAnswerOptionsPair(question3,answerOptionsQ3,answerOptionPythonscript);
+const questionAnswerOptionsPair4=new QuestionAnswerOptionsPair(question4,answerOptionsQ4,answerOptionPhp);
+const questionAnswerOptionsPair5=new QuestionAnswerOptionsPair(question5,answerOptionsQ5,answerOptionProgramminglanguage);
 
 
 const qaPairArray=[questionAnswerOptionsPair1,questionAnswerOptionsPair2,
@@ -66,17 +68,28 @@ const qaPairArray=[questionAnswerOptionsPair1,questionAnswerOptionsPair2,
 
 function QuizApplication(qaPairArray){
     this.qaPairArray=qaPairArray;
-    this.score=0;
+    this.score=0; 
     this.pageIndex=0;
+    this.init=function(){
+        this.applicationInit()
+    }
+    
+    this.applicationInit=function(){
+        this.pageIndex= 0;
+        this.addListeners();
+        this.displayQuizPage();
+    }
 
     this.getScore=function(){
         return this.score;
     }
     this.incrementScore=function(){
-        this.score++;
+        this.score++; 
     }
     this.calculateSuccessPercentage=function(){
-        (this.score/this.qaPairArray.length)*100;
+        let percentage=(this.score/this.qaPairArray.length)*100;
+        console.log(percentage);
+        return percentage;
     }
 
     this.isLastQAPair=function(){
@@ -128,10 +141,8 @@ function QuizApplication(qaPairArray){
             // increment-score
         // next()
         }
-
     }
-    }
-
+}
     this.next = function(){
 
     if (this.isLastQAPair()){
@@ -141,8 +152,7 @@ function QuizApplication(qaPairArray){
 
         this.initNextPage();
     }
-
-    }
+}
 
     this.initNextPage = function(){
 
@@ -215,3 +225,5 @@ function QuizApplication(qaPairArray){
     // add the onclick listener
     // console.log message
 }
+const quizApp= new QuizApplication(qaPairArray); 
+quizApp.init();
